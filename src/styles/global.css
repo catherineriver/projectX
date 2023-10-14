@@ -164,6 +164,11 @@ body {
   }
 }
 
+.map-container {
+  height: 900px;
+  width: 100%;
+}
+
 /* Layout */
 .container {
   margin: 0 auto;

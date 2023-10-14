@@ -39,6 +39,19 @@ export default defineType({
       title: 'Body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'map',
+      title: 'Map',
+      type: 'text',
+    }),
+    defineField({
+      name: 'geoJson',
+      title: 'GeoJson',
+      type: 'file',
+      options: {
+        accept: '.json',
+      },
+    }),
   ],
   preview: {
     select: {

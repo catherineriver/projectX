@@ -10,6 +10,16 @@ export async function getPosts(client: SanityClient): Promise<Post[]> {
 }
 
 export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]`
+export const jsonBySlug = groq`
+*[_type == "post" && slug.current == $slug][0]{
+  title,
+  excerpt,
+  _createdAt,
+  body,
+  map,
+  geoJson
+}
+`
 
 export async function getPost(
   client: SanityClient,
@@ -24,6 +34,10 @@ export const postSlugsQuery = groq`
 *[_type == "post" && defined(slug.current)][].slug.current
 `
 
+export const jsonQuery = `*[_type == "post"]{
+  "geoJson": file.asset->url
+}`;
+
 export interface Post {
   _type: 'post'
   _id: string
@@ -33,4 +47,6 @@ export interface Post {
   excerpt?: string
   mainImage?: ImageAsset
   body: PortableTextBlock[]
+  map?: string,
+  geoJson?: string,
 }

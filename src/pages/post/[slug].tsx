@@ -61,9 +61,11 @@ export default function ProjectSlugRoute(
   const [lng, setLng] = useState(-77);
   const [lat, setLat] = useState(38);
   const [zoom, setZoom] = useState(11.15);
-  const geoJsonData = typeof post.geoJson === 'string' ? JSON.parse(post.geoJson) : post.geoJson;
+  const geoJsonData = JSON.parse(post?.geoJson);
+
 
   console.log(geoJsonData)
+
 
 
   useEffect(() => {

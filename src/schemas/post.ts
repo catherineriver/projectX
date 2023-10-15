@@ -14,7 +14,6 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      validation: (Rule) => Rule.required(),
       options: {
         source: 'title',
         maxLength: 96,
@@ -46,11 +45,8 @@ export default defineType({
     }),
     defineField({
       name: 'geoJson',
-      title: 'GeoJson',
-      type: 'file',
-      options: {
-        accept: '.json',
-      },
+      title: 'Geo Json',
+      type: 'text',
     }),
   ],
   preview: {

@@ -27,7 +27,7 @@ export default function Container({ children }: { children: React.ReactNode }) {
               strokeWidth="1.2"
             ></path>
           </svg>{' '}
-          at Sanity
+          at SIA VIRTUOZ
         </p>
       </footer>
     </div>

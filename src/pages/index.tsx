@@ -2,6 +2,9 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useLiveQuery } from 'next-sanity/preview'
 
 import Card from '~/components/Card'
+import Geolocation from '~/components/Geolocation'
+import Timezone from '~/components/Timezone'
+import City from '~/components/City'
 import Container from '~/components/Container'
 import Welcome from '~/components/Welcome'
 import { readToken } from '~/lib/sanity.api'
@@ -32,6 +35,9 @@ export default function IndexPage(
   const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery)
   return (
     <Container>
+      <Geolocation />
+      <Timezone />
+      <City />
       <section>
         {posts.length ? (
           posts.map((post) => <Card key={post._id} post={post} />)

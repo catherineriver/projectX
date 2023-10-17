@@ -9,6 +9,7 @@ export default function Container({ children }: { children: React.ReactNode }) {
         </Link>
       </header>
       <main>{children}</main>
+
       <footer className="footer">
         <p className="footer__text">
           Made with{' '}

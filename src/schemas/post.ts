@@ -20,10 +20,19 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
-      rows: 4,
+      name: 'points',
+      title: 'Points',
+      type: 'string',
+    }),
+    defineField({
+      name: 'length',
+      title: 'Length',
+      type: 'string',
+    }),
+    defineField({
+      name: 'time',
+      title: 'Time',
+      type: 'string',
     }),
     defineField({
       name: 'mainImage',
@@ -48,6 +57,19 @@ export default defineType({
       title: 'Geo Json',
       type: 'text',
     }),
+    defineField({
+      name: 'pointsCards',
+      title: 'Points Cards',
+      type: 'array',
+      of: [
+        {
+          title: 'Card',
+          name: 'card',
+          type: 'reference',
+          to: [{ type: 'card' }]
+        }
+      ]
+    })
   ],
   preview: {
     select: {

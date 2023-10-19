@@ -17,7 +17,7 @@ import {
   apiVersion,
   dataset,
   previewSecretId,
-  projectId,
+  projectId
 } from '~/lib/sanity.api'
 import { schema } from '~/schemas'
 
@@ -34,9 +34,9 @@ export default defineConfig({
   basePath: '/studio',
   name: 'project-name',
   title: 'Project Name',
+  apiVersion,
   projectId,
   dataset,
-  //edit schemas in './src/schemas'
   schema,
   plugins: [
     deskTool({

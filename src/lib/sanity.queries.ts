@@ -17,7 +17,16 @@ export const jsonBySlug = groq`
   _createdAt,
   body,
   map,
-  geoJson
+  geoJson,
+  mainImage{
+    asset->{
+      _id,
+      url
+    }
+  },
+  pointsCards[]->{
+    title
+  }
 }
 `
 
@@ -34,10 +43,6 @@ export const postSlugsQuery = groq`
 *[_type == "post" && defined(slug.current)][].slug.current
 `
 
-export const jsonQuery = `*[_type == "post"]{
-  "geoJson": file.asset->url
-}`;
-
 export interface Post {
   _type: 'post'
   _id: string
@@ -49,4 +54,20 @@ export interface Post {
   body: PortableTextBlock[]
   map?: string,
   geoJson?: string,
+  points?: string,
+  length?: string,
+  time?: string,
+  pointsCards: any[]
 }
+
+export interface Card {
+  title: string;
+  mainImage: {
+    asset: {
+      _id: string;
+      url: string;
+    }
+  }
+  body: any; // Замените на ваш тип для тела
+}
+

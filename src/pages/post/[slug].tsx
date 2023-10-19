@@ -12,7 +12,10 @@ import {
 import type { SharedPageProps } from '~/pages/_app'
 import { formatDate } from '~/utils'
 import mapboxgl from 'mapbox-gl';
-import { useEffect, useRef, useState } from 'react' // eslint-disable-line import/no-webpack-loader-syntax
+import { useEffect, useRef, useState } from 'react'
+import { urlForImage } from '~/lib/sanity.image'
+import Image from 'next/image'
+import { point } from 'slate' // eslint-disable-line import/no-webpack-loader-syntax
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGFybmF1bHRjYXRoZXJpbmUiLCJhIjoiY2xua3FxNjlzMDl3bDJrcGI4dWQyaGtxcCJ9.uxPl-TQVWXAvDk9d1fnGUQ';
 
@@ -58,7 +61,7 @@ export default function ProjectSlugRoute(
   const [zoom, setZoom] = useState(11.15);
   const geoJsonData = post ? JSON.parse(post.geoJson) : null;
 
-  console.log(geoJsonData)
+  console.log(post.pointsCards)
 
   useEffect(() => {
     if (!geoJsonData || map.current) return; // initialize map only once
@@ -149,17 +152,48 @@ export default function ProjectSlugRoute(
     <Container>
       <section className="post">
         <div className="post__container">
-          <h1 className="post__title">{post.title}</h1>
-          <p className="post__excerpt">{post.excerpt}</p>
-          <p className="post__date">{formatDate(post._createdAt)}</p>
-          <div className="post__content">
-            <PortableText value={post.body} />
-          </div>
-
           <div>
+            <Image
+              className="card__cover"
+              src={urlForImage(post.mainImage).width(500).height(300).url()}
+              height={300}
+              width={500}
+              alt=""
+            />
+          </div>
+          <div className="post__content">
+            <h1 className="post__title">{post.title}</h1>
+            <div className="post__meta">
+              <div className="post__meta-item">
+                <span>{post.points}</span>
+                точек
+              </div>
+              <div className="post__meta-item">
+                <span>{post.time} ч</span>
+                время
+              </div>
+              <div className="post__meta-item">
+                <span>~{post.length} км</span>
+                расстояние
+              </div>
+            </div>
+            {post.pointsCards && post.pointsCards.map((card: any, index: number) => (
+              <div key={index}>
+                <h2>{card.title}</h2>
+
+              </div>
+            ))}
+
+            <p className="post__excerpt">{post.excerpt}</p>
+            <div className="post__text">
+              <PortableText value={post.body} />
+            </div>
+          </div>
+          <div className="post__map">
             <div ref={mapContainer} className="map-container" />
           </div>
         </div>
+
       </section>
     </Container>
   )

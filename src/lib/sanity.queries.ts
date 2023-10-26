@@ -12,19 +12,8 @@ export async function getPosts(client: SanityClient): Promise<Post[]> {
 export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]`
 export const jsonBySlug = groq`
 *[_type == "post" && slug.current == $slug][0]{
-  title,
-  excerpt,
-  _createdAt,
-  body,
-  map,
-  geoJson,
-  mainImage{
-    asset->{
-      _id,
-      url
-    }
-  },
-  pointsCards[]->{
+  ...,
+  pointsCards[] -> {
     title
   }
 }
@@ -60,7 +49,7 @@ export interface Post {
   pointsCards: any[]
 }
 
-export interface Card {
+export interface Point {
   title: string;
   mainImage: {
     asset: {
@@ -68,6 +57,6 @@ export interface Card {
       url: string;
     }
   }
-  body: any; // Замените на ваш тип для тела
+  body: PortableTextBlock[]
 }
 

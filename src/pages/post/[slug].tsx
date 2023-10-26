@@ -10,14 +10,12 @@ import {
   postSlugsQuery
 } from '~/lib/sanity.queries'
 import type { SharedPageProps } from '~/pages/_app'
-import { formatDate } from '~/utils'
 import mapboxgl from 'mapbox-gl';
 import { useEffect, useRef, useState } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
 import Image from 'next/image'
-import { point } from 'slate' // eslint-disable-line import/no-webpack-loader-syntax
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiaGFybmF1bHRjYXRoZXJpbmUiLCJhIjoiY2xua3FxNjlzMDl3bDJrcGI4dWQyaGtxcCJ9.uxPl-TQVWXAvDk9d1fnGUQ';
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API;
 
 interface Query {
   [key: string]: string
@@ -60,15 +58,55 @@ export default function ProjectSlugRoute(
   const [lat, setLat] = useState(41);
   const [zoom, setZoom] = useState(11.15);
   const geoJsonData = post ? JSON.parse(post.geoJson) : null;
+  const [pointsData, setPointsData] = useState([]);
+  const [placesData, setPlacesData] = useState();
 
-  console.log(post.pointsCards)
+  async function fetchPointsData(refs, client) {
+    const query = `*[_id in $refs]`;
+    const params = { refs };
+    return await client.fetch(query, params);
+  }
+
+  async function fetchPlaces(client) {
+    const query = `*[_type == "post"]{
+      places
+    }`;
+    return await client.fetch(query);
+  }
+
+
 
   useEffect(() => {
-    if (!geoJsonData || map.current) return; // initialize map only once
+    if (post && post.pointsCards) {
+      const refs = post.pointsCards.map(point => point._ref);
+      fetchPointsData(refs, getClient()).then(data => {
+        setPointsData(data);
+      });
+
+      fetchPlaces(getClient()).then(data => {
+        if (data && data[1] && data[1].places) {
+          setPlacesData(data[1].places);
+        }
+      });
+    }
+  }, [post]);
+
+
+
+  useEffect(() => {
+    if (!geoJsonData || map.current || !placesData || !placesData[0] || !placesData[0].coordinates) return;
+
+    const longitude = Number(placesData[0].coordinates.longitude);
+    const latitude = Number(placesData[0].coordinates.latitude);
+
+    console.log(longitude, latitude);
+
+    if (isNaN(longitude) || isNaN(latitude)) return;
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: post.map,
-      center: [lng, lat],
+      center: [longitude, latitude],
       zoom: zoom
     });
 
@@ -146,7 +184,7 @@ export default function ProjectSlugRoute(
 // start the animation
       animateDashArray(0);
     });
-  }, [geoJsonData, lat, lng, zoom]);
+  }, [placesData]);
 
   return (
     <Container>
@@ -177,10 +215,9 @@ export default function ProjectSlugRoute(
                 расстояние
               </div>
             </div>
-            {post.pointsCards && post.pointsCards.map((card: any, index: number) => (
+            {pointsData && pointsData.map((card: any, index: number) => (
               <div key={index}>
                 <h2>{card.title}</h2>
-
               </div>
             ))}
 

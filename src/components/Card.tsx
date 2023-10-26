@@ -24,8 +24,11 @@ export default function Card({ post }: { post: Post }) {
             {post.title}
           </a>
         </h3>
-        <p className="card__excerpt">{post.excerpt}</p>
-        <p className="card__date">{formatDate(post._createdAt)}</p>
+        <div className="card__meta">
+          <div className="card__excerpt">{post.time} h</div>
+          <div className="card__excerpt">{post.points} places</div>
+          <div className="card__excerpt">{post.length} km</div>
+        </div>
       </div>
     </div>
   )

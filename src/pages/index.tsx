@@ -38,13 +38,13 @@ export default function IndexPage(
       <Geolocation />
       <Timezone />
       <City />
-      <section>
+      <div className='cards'>
         {posts.length ? (
           posts.map((post) => <Card key={post._id} post={post} />)
         ) : (
           <Welcome />
         )}
-      </section>
+      </div>
     </Container>
   )
 }

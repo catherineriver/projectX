@@ -14,7 +14,9 @@ export const jsonBySlug = groq`
 *[_type == "post" && slug.current == $slug][0]{
   ...,
   pointsCards[] -> {
-    title
+    title,
+    mainImage,
+    body,
   }
 }
 `

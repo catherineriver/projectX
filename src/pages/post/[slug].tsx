@@ -60,6 +60,11 @@ export default function ProjectSlugRoute(
   const geoJsonData = post ? JSON.parse(post.geoJson) : null;
   const [pointsData, setPointsData] = useState([]);
   const [placesData, setPlacesData] = useState();
+  const [openedIndex, setOpenedIndex] = useState<number | null>(null);
+
+  const handleToggle = (index: number) => {
+    setOpenedIndex(openedIndex === index ? null : index);
+  };
 
   async function fetchPointsData(refs, client) {
     const query = `*[_id in $refs]`;
@@ -81,6 +86,7 @@ export default function ProjectSlugRoute(
       const refs = post.pointsCards.map(point => point._ref);
       fetchPointsData(refs, getClient()).then(data => {
         setPointsData(data);
+        console.log(pointsData)
       });
 
       fetchPlaces(getClient()).then(data => {
@@ -190,16 +196,8 @@ export default function ProjectSlugRoute(
     <Container>
       <section className="post">
         <div className="post__container">
-          <div>
-            <Image
-              className="card__cover"
-              src={urlForImage(post.mainImage).width(500).height(300).url()}
-              height={300}
-              width={500}
-              alt=""
-            />
-          </div>
           <div className="post__content">
+
             <h1 className="post__title">{post.title}</h1>
             <div className="post__meta">
               <div className="post__meta-item">
@@ -215,20 +213,42 @@ export default function ProjectSlugRoute(
                 расстояние
               </div>
             </div>
-            {pointsData && pointsData.map((card: any, index: number) => (
-              <div key={index}>
-                <h2>{card.title}</h2>
+            <div>
+            <div>
+              <div className="post__text">
+                <PortableText value={post.body} />
               </div>
-            ))}
+              <div className="post__map">
+              <div ref={mapContainer} className="map-container" />
+            </div>
+            </div>
+            <div>
+              <div className="post__places">
+                {pointsData && pointsData.map((card: any, index: number) => (
+                  <div key={index} className="place">
+                    <div className="place__card" onClick={() => handleToggle(index)}>
+                      <Image
+                        className="place__cover"
+                        src={urlForImage(post.mainImage).width(50).height(50).url()}
+                        height={50}
+                        width={50}
+                        alt=""
+                      />
+                      <h2>{card.title}</h2>
+                    </div>
 
-            <p className="post__excerpt">{post.excerpt}</p>
-            <div className="post__text">
-              <PortableText value={post.body} />
+                    {openedIndex === index && (
+                      <div>
+                        <PortableText value={card.body} />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
             </div>
           </div>
-          <div className="post__map">
-            <div ref={mapContainer} className="map-container" />
-          </div>
+
         </div>
 
       </section>

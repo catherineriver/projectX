@@ -48,7 +48,7 @@
   --magenta-100: #f9d7eb;
 
   --max-width-0: 320px;
-  --max-width-1: 768px;
+  --max-width-1: 1120px;
 }
 
 html {
@@ -157,6 +157,25 @@ body {
 
 }
 
+.post__places {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.place__card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  cursor: pointer;
+}
+
+.place__cover {
+  border-radius: 50%;
+}
+
 @media (min-width: 800px) {
   .post .post__cover,
   .post .post__cover--none {
@@ -188,12 +207,23 @@ body {
     margin-top: var(--space-7);
   }
 }
+.place {
+  border-radius: 16px;
+  border: 1px solid;
+  padding: 10px 15px;
+}
+.post__map {
+  padding: 24px 0;
+}
 
 .map-container {
   height: 400px;
   width: 100%;
 }
 
+.mapboxgl-control-container {
+  display: none;
+}
 /* Layout */
 .container {
   margin: 0 auto;

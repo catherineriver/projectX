@@ -2,14 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 
 export default function Map({ placesData, geoJsonData, style }: {
-  placesData: any[];
-  geoJsonData: any[],
+  placesData: string;
+  geoJsonData: string,
   style: any
 }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-87);
-  const [lat, setLat] = useState(41);
   const [zoom, setZoom] = useState(11.15);
 
   useEffect(() => {
@@ -113,7 +111,7 @@ export default function Map({ placesData, geoJsonData, style }: {
   }, [placesData]);
 
   return (
-    <div className="post__map">
+    <div className="map">
       <div ref={mapContainer} className="map-container" />
     </div>
   )

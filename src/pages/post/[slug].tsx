@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
 import Image from 'next/image'
 import Map from '~/components/Map'
+import Link from 'next/link'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API;
 
@@ -67,25 +68,12 @@ export default function ProjectSlugRoute(
     return await client.fetch(query, params);
   }
 
-  async function fetchPlaces(client) {
-    const query = `*[_type == "post"]{
-      places
-    }`;
-    return await client.fetch(query);
-  }
-
   useEffect(() => {
     if (post && post.pointsCards) {
       const refs = post.pointsCards.map(point => point._ref);
       fetchPointsData(refs, getClient()).then(data => {
         setPointsData(data);
         console.log(pointsData)
-      });
-
-      fetchPlaces(getClient()).then(data => {
-        if (data && data[1] && data[1].places) {
-          setPlacesData(data[1].places);
-        }
       });
     }
   }, [post]);
@@ -117,11 +105,9 @@ export default function ProjectSlugRoute(
                 <PortableText value={post.body} />
               </div>
 
-              <Map
-                geoJsonData={geoJsonData}
-                placesData={placesData}
-                style={post.map}
-              />
+              <Link href={`/post/map/${post.slug.current}`}>
+                открыть карту
+              </Link>
             </div>
             <div>
               <div className="post__places">

@@ -220,7 +220,6 @@ body {
 }
 
 .map-container {
-  height: 400px;
   width: 100%;
 }
 
@@ -394,4 +393,27 @@ main {
   content: '';
   position: absolute;
   inset: 0;
+}
+
+.map-page {
+  position: relative;
+}
+
+.map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.map-page .map-button {
+  position: absolute;
+  top: 30px;
+  z-index: 10;
+  left: 10px;
+}
+
+.map-page .mapboxgl-canvas {
+  height: 100vh !important;
+  width: 100% !important;
 }

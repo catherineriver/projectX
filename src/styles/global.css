@@ -64,9 +64,9 @@ body {
 }
 
 .with-border {
-  border-radius: 16px;
+  border-radius: 8px;
   border: 1px solid;
-  padding: 10px 15px;
+  padding: 8px 16px;
 }
 
 /* Post page */
@@ -216,11 +216,7 @@ body {
     margin-top: var(--space-7);
   }
 }
-.place {
-  border-radius: 16px;
-  border: 1px solid;
-  padding: 10px 15px;
-}
+
 .post__map {
   padding: 24px 0;
 }
@@ -237,6 +233,11 @@ body {
   margin: 0 auto;
 }
 
+.layout {
+  margin-top: 100px;
+  padding: 0 16px;
+}
+
 main {
   min-height: 100vh;
   height: 100%;
@@ -245,7 +246,6 @@ main {
 .header {
   display: flex;
   padding: 0 var(--space-1);
-  border-bottom: 1px solid #ced2d9;
 
   z-index: 10;
   background: var(--white);
@@ -253,6 +253,10 @@ main {
   left: 0;
   right: 0;
   top: 0;
+
+  margin: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ced2d9;
 }
 
 .header .header__title {
@@ -370,6 +374,11 @@ main {
   margin: var(--space-3) 0;
   max-width: 80%;
   flex-grow: 1;
+
+  @media (max-width: 768px) {
+    font-size: var(--font-size-5);
+    line-height: var(--line-height-4);
+  }
 }
 
 .card .card__excerpt {
@@ -416,13 +425,14 @@ main {
 
 .map-page .map-button {
   position: absolute;
-  top: 80px;
+  top: 68px;
   z-index: 10;
-  left: 10px;
+  left: 12px;
 
   & button {
     background: white;
-    width: 150px;
+    padding: 10px 16px;
+    line-height: 20px;
   }
 }
 
@@ -440,38 +450,54 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 20px;
+  padding: 14px 16px;
 }
 
 button {
   background: transparent;
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
+  line-height: 32px;
 }
 
 .map-page {
   .places-list {
     position: absolute;
-    z-index: 10;
-    bottom: 0;
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    margin: 30px auto;
+    z-index: 100;
+    bottom: 60px;
+
+    margin: 24px auto;
     width: 100%;
 
     & .place {
       background: white;
-      display: inline-block;
+      display: flex;
+      border-radius: 16px;
+      border: 1px solid;
+      padding: 10px 15px;
 
-      margin-right: 20px;
+    }
+
+    & .place__header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+
+      & h3 {
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+      }
     }
   }
 
   .places-list__holder {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
     overflow-x: auto;
-    white-space: nowrap;
-    width: 100%;
+    margin-left: 12px;
   }
 
 }

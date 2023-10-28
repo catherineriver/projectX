@@ -121,7 +121,7 @@ export default function ProjectSlugRoute(
                 <div>
                   <div className="post__places">
                     {pointsData && pointsData.map((card: any, index: number) => (
-                      <div key={index} className="place">
+                      <div key={index} className="place with-border">
                         <div className="place__card" onClick={() => handleToggle(index)}>
                           <Image
                             className="place__cover"

@@ -10,9 +10,10 @@ export default function Card({ post }: { post: Post }) {
       {post.mainImage ? (
         <Image
           className="card__cover"
-          src={urlForImage(post.mainImage).width(500).height(300).url()}
-          height={300}
+          src={urlForImage(post.mainImage).width(500).height(150).url()}
+          height={150}
           width={500}
+          layout="responsive"
           alt=""
         />
       ) : (

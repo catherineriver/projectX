@@ -84,16 +84,15 @@ export default function ProjectSlugRoute(
           <div className="places-list__holder">
             {pointsData && pointsData.map((card: any, index: number) => (
               <div key={index} className="place">
-                <h3>{card.title}</h3>
-                <Image
-                  className="place__cover"
-                  src={urlForImage(card.mainImage).width(50).height(50).url()}
-                  height={50}
-                  width={50}
-                  alt=""
-                />
-                <div className="place__description">
-                  <PortableText value={card.description} />
+                <div className="place__header">
+                  <Image
+                    className="place__cover"
+                    src={urlForImage(card.mainImage).width(30).height(30).url()}
+                    height={30}
+                    width={30}
+                    alt=""
+                  />
+                  <h3>{card.title}</h3>
                 </div>
               </div>
             ))}

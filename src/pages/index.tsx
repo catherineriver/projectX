@@ -35,15 +35,17 @@ export default function IndexPage(
   const [posts] = useLiveQuery<Post[]>(props.posts, postsQuery)
   return (
     <Container>
-      <Geolocation />
-      <Timezone />
-      <City />
-      <div className='cards'>
-        {posts.length ? (
-          posts.map((post) => <Card key={post._id} post={post} />)
-        ) : (
-          <Welcome />
-        )}
+      <div className="layout">
+        <Geolocation />
+        <Timezone />
+        <City />
+        <div className='cards'>
+          {posts.length ? (
+            posts.map((post) => <Card key={post._id} post={post} />)
+          ) : (
+            <Welcome />
+          )}
+        </div>
       </div>
     </Container>
   )

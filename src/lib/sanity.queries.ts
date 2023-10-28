@@ -44,7 +44,7 @@ export interface Post {
   mainImage?: ImageAsset
   body: PortableTextBlock[]
   map?: string,
-  places?: string,
+  places?: any[],
   geoJson?: string,
   points?: string,
   length?: string,

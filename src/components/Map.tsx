@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 
 export default function Map({ placesData, geoJsonData, style }: {
-  placesData: string;
+  placesData: any[];
   geoJsonData: string,
   style: any
 }) {

@@ -52,7 +52,7 @@ export default function ProjectSlugRoute(
     <Container>
       <div className="map-page">
         <div className="map-button">
-          <button onClick={() => router.back()}>Назад</button>
+          <button className="with-border button" onClick={() => router.back()}>Назад</button>
         </div>
 
         <Map

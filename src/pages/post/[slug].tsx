@@ -57,9 +57,14 @@ export default function ProjectSlugRoute(
   const [pointsData, setPointsData] = useState([]);
   const [placesData, setPlacesData] = useState();
   const [openedIndex, setOpenedIndex] = useState<number | null>(null);
+  const [isBought, setIsBought] = useState<boolean>(false);
 
   const handleToggle = (index: number) => {
     setOpenedIndex(openedIndex === index ? null : index);
+  };
+
+  const handleBuy = () => {
+    setIsBought(true);
   };
 
   async function fetchPointsData(refs, client) {
@@ -86,15 +91,15 @@ export default function ProjectSlugRoute(
 
             <h1 className="post__title">{post.title}</h1>
             <div className="post__meta">
-              <div className="post__meta-item">
+              <div className="post__meta-item with-border">
                 <span>{post.points}</span>
                 точек
               </div>
-              <div className="post__meta-item">
+              <div className="post__meta-item with-border">
                 <span>{post.time} ч</span>
                 время
               </div>
-              <div className="post__meta-item">
+              <div className="post__meta-item with-border">
                 <span>~{post.length} км</span>
                 расстояние
               </div>
@@ -104,35 +109,40 @@ export default function ProjectSlugRoute(
               <div className="post__text">
                 <PortableText value={post.body} />
               </div>
-
-              <Link href={`/post/map/${post.slug.current}`}>
-                открыть карту
-              </Link>
-            </div>
-            <div>
-              <div className="post__places">
-                {pointsData && pointsData.map((card: any, index: number) => (
-                  <div key={index} className="place">
-                    <div className="place__card" onClick={() => handleToggle(index)}>
-                      <Image
-                        className="place__cover"
-                        src={urlForImage(post.mainImage).width(50).height(50).url()}
-                        height={50}
-                        width={50}
-                        alt=""
-                      />
-                      <h3>{card.title}</h3>
-                    </div>
-
-                    {openedIndex === index && (
-                      <div>
-                        <PortableText value={card.body} />
-                      </div>
-                    )}
-                  </div>
-                ))}
+              <div className="buttons-holder">
+                {isBought
+                  ? <Link className="with-border button" href={`/post/map/${post.slug.current}`}>открыть карту</Link>
+                  :
+                    <button className="with-border button" onClick={() => handleBuy()}>Купить</button>
+                }
               </div>
             </div>
+              {isBought &&
+                <div>
+                  <div className="post__places">
+                    {pointsData && pointsData.map((card: any, index: number) => (
+                      <div key={index} className="place">
+                        <div className="place__card" onClick={() => handleToggle(index)}>
+                          <Image
+                            className="place__cover"
+                            src={urlForImage(post.mainImage).width(50).height(50).url()}
+                            height={50}
+                            width={50}
+                            alt=""
+                          />
+                          <h3>{card.title}</h3>
+                        </div>
+
+                        {openedIndex === index && (
+                          <div>
+                            <PortableText value={card.body} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              }
             </div>
           </div>
 

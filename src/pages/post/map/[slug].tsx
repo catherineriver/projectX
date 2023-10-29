@@ -51,6 +51,11 @@ export default function ProjectSlugRoute(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
   const [pointsData, setPointsData] = useState([]);
+  const [flyToCoordinates, setFlyToCoordinates] = useState<[number, number] | null>(null);
+
+  const handleFlyTo = (latitude: number, longitude: number) => {
+    setFlyToCoordinates([longitude, latitude]);
+  }
 
   async function fetchPointsData(refs, client) {
     const query = `*[_id in $refs]`;
@@ -66,7 +71,7 @@ export default function ProjectSlugRoute(
         setPointsData(data);
       });
     }
-  }, []);
+  }, [postSlugsQuery]);
 
   return (
     <Container>
@@ -79,12 +84,13 @@ export default function ProjectSlugRoute(
           geoJsonData={props.post?.geoJson}
           placesData={props.post?.places}
           style={props.post?.map}
+          flyToCoordinates={flyToCoordinates}
         />
         <div className="places-list">
           <div className="places-list__holder">
             {pointsData && pointsData.map((card: any, index: number) => (
-              <div key={index} className="place">
-                <div className="place__header">
+              <div key={index} className="place" onClick={() => handleFlyTo(card.coordinates.latitude, card.coordinates.longitude)}>
+              <div className="place__header">
                   <Image
                     className="place__cover"
                     src={urlForImage(card.mainImage).width(30).height(30).url()}
@@ -93,6 +99,12 @@ export default function ProjectSlugRoute(
                     alt=""
                   />
                   <h3>{card.title}</h3>
+                  {card.coordinates !== undefined &&
+                    <>
+                      <div>{card.coordinates.latitude}</div>
+                      <div>{card.coordinates.longitude}</div>
+                    </>
+                  }
                 </div>
               </div>
             ))}

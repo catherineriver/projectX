@@ -14,6 +14,16 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'coordinates',
+      title: 'Coordinates',
+      description: 'Point coordinates on google map',
+      type: 'object',
+      fields: [
+        {name: 'latitude', title: 'Latitude', type: 'number'},
+        {name: 'longitude', title: 'Longitude', type: 'number'}
+      ]
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',

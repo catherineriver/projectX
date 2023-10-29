@@ -78,7 +78,6 @@ export default function ProjectSlugRoute(
       const refs = post.pointsCards.map(point => point._ref);
       fetchPointsData(refs, getClient()).then(data => {
         setPointsData(data);
-        console.log(pointsData)
       });
     }
   }, [post]);

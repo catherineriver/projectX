@@ -2,7 +2,6 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Container from '~/components/Container'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
-import { PortableText } from '@portabletext/react'
 import {
   getPost, jsonBySlug,
   type Post,
@@ -82,7 +81,6 @@ export default function ProjectSlugRoute(
 
         <Map
           geoJsonData={props.post?.geoJson}
-          placesData={props.post?.places}
           style={props.post?.map}
           flyToCoordinates={flyToCoordinates}
         />

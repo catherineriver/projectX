@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 
-export default function Map({ placesData, geoJsonData, style, flyToCoordinates }: {
-  placesData: any[];
+export default function Map({ geoJsonData, style, flyToCoordinates }: {
   geoJsonData: string,
   style: any
   flyToCoordinates: [number, number] | null
@@ -22,18 +21,12 @@ export default function Map({ placesData, geoJsonData, style, flyToCoordinates }
   }, [flyToCoordinates]);
 
   useEffect(() => {
-    if (!geoJsonData || map.current || !placesData || !placesData[0] || !placesData[0].coordinates) return;
-    const longitude = Number(placesData[0].coordinates.longitude);
-    const latitude = Number(placesData[0].coordinates.latitude);
-
-    console.log(longitude, latitude);
-
-    if (isNaN(longitude) || isNaN(latitude)) return;
+    if (!geoJsonData || map.current) return;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: style,
-      center: [longitude, latitude],
+      center: [24.1232797, 56.9521228], // user location here, reverse
       zoom: zoom
     });
 
@@ -50,7 +43,7 @@ export default function Map({ placesData, geoJsonData, style, flyToCoordinates }
       }
     };
 
-  }, [placesData]);
+  }, [geoJsonData]);
 
   return (
     <div className="map">

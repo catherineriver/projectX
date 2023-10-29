@@ -58,32 +58,6 @@ export default defineType({
       type: 'text',
     }),
     defineField({
-      name: 'places',
-      title: 'Places',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'name',
-              title: 'Name',
-              type: 'string'
-            },
-            {
-              name: 'coordinates',
-              title: 'Coordinates',
-              type: 'object',
-              fields: [
-                {name: 'latitude', title: 'Latitude', type: 'number'},
-                {name: 'longitude', title: 'Longitude', type: 'number'}
-              ]
-            }
-          ]
-        }
-      ]
-    }),
-    defineField({
       name: 'pointsCards',
       title: 'Points Cards',
       type: 'array',

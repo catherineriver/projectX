@@ -252,7 +252,7 @@ main {
 
   margin: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #ced2d9;
+  border: 1px solid;
 }
 
 .header .header__title {

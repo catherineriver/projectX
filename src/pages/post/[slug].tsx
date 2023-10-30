@@ -103,17 +103,17 @@ export default function ProjectSlugRoute(
                 расстояние
               </div>
             </div>
+            <div className="buttons-holder">
+              {isBought
+                ? <Link className="with-border button" href={`/post/map/${post.slug.current}`}>открыть карту</Link>
+                :
+                <button className="with-border button" onClick={() => handleBuy()}>Купить</button>
+              }
+            </div>
             <div>
             <div>
               <div className="post__text">
                 <PortableText value={post.body} />
-              </div>
-              <div className="buttons-holder">
-                {isBought
-                  ? <Link className="with-border button" href={`/post/map/${post.slug.current}`}>открыть карту</Link>
-                  :
-                    <button className="with-border button" onClick={() => handleBuy()}>Купить</button>
-                }
               </div>
             </div>
               {isBought &&

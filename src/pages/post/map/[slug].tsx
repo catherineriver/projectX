@@ -62,11 +62,11 @@ export default function ProjectSlugRoute(
     return await client.fetch(query, params);
   }
 
-  console.log(pointsData)
   useEffect(() => {
     if (props.post && props.post.pointsCards) {
       const refs = props.post.pointsCards.map(point => point._ref);
       fetchPointsData(refs, getClient()).then(data => {
+          console.log(data);
         setPointsData(data);
       });
     }
@@ -96,13 +96,15 @@ export default function ProjectSlugRoute(
                     width={30}
                     alt=""
                   />
-                  <h3>{card.title}</h3>
-                  {card.coordinates !== undefined &&
-                    <>
-                      <div>{card.coordinates.latitude}</div>
-                      <div>{card.coordinates.longitude}</div>
-                    </>
-                  }
+                  <div className="place__info">
+                    <h3>{card.title}</h3>
+                    {card.coordinates !== undefined &&
+                      <>
+                        <div>{card.coordinates.latitude}</div>
+                        <div>{card.coordinates.longitude}</div>
+                      </>
+                    }
+                  </div>
                 </div>
               </div>
             ))}

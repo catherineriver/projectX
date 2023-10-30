@@ -8,8 +8,7 @@ export default function Map({ geoJsonData, style, flyToCoordinates }: {
 }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [zoom, setZoom] = useState(11.15);
-  const [isUnmounted, setIsUnmounted] = useState(false);
+  const [zoom, setZoom] = useState(14);
 
   useEffect(() => {
     if (map.current && flyToCoordinates) {
@@ -26,7 +25,7 @@ export default function Map({ geoJsonData, style, flyToCoordinates }: {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: style,
-      center: [24.1232797, 56.9521228], // user location here, reverse
+      center: [24.1232797, 56.9521228], // default location
       zoom: zoom
     });
 
@@ -35,6 +34,20 @@ export default function Map({ geoJsonData, style, flyToCoordinates }: {
         type: 'geojson',
         data: geoJsonData
       });
+
+      const geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserLocation: true
+      });
+
+      setTimeout(() => {
+        geolocate.trigger();
+      }, 10);
+
+      map.current.addControl(geolocate);
     });
 
     return () => {
@@ -44,6 +57,8 @@ export default function Map({ geoJsonData, style, flyToCoordinates }: {
     };
 
   }, [geoJsonData]);
+
+
 
   return (
     <div className="map">

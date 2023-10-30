@@ -224,10 +224,6 @@ body {
 .map-container {
   width: 100%;
 }
-
-.mapboxgl-control-container {
-  display: none;
-}
 /* Layout */
 .container {
   margin: 0 auto;
@@ -411,36 +407,6 @@ main {
   inset: 0;
 }
 
-.map-page {
-  position: relative;
-  height: 100vh;
-}
-
-.map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
-
-.map-page .map-button {
-  position: absolute;
-  top: 68px;
-  z-index: 10;
-  left: 12px;
-
-  & button {
-    background: white;
-    padding: 10px 16px;
-    line-height: 20px;
-  }
-}
-
-.map-page .mapboxgl-canvas {
-  height: 100vh !important;
-  width: 100% !important;
-}
-
 .buttons-holder {
   margin: 16px 0;
 }
@@ -461,7 +427,37 @@ button {
   line-height: 32px;
 }
 
+.map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
 .map-page {
+  position: relative;
+  height: 100vh;
+  .mapboxgl-ctrl-top-right {
+    top: 58px;
+  }
+
+  .mapboxgl-ctrl-geolocate {
+    width: 40px;
+    height: 40px;
+  }
+
+  .map-button {
+    position: absolute;
+    top: 68px;
+    z-index: 10;
+    left: 12px;
+
+    & button {
+      background: white;
+      padding: 10px 16px;
+      line-height: 20px;
+    }
+  }
   .places-list {
     position: absolute;
     z-index: 100;
@@ -470,6 +466,14 @@ button {
     margin: 24px auto;
     width: 100%;
 
+    & .places-list__holder {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      overflow-x: auto;
+      margin-left: 12px;
+    }
+
     & .place {
       background: white;
       display: flex;
@@ -477,6 +481,11 @@ button {
       border: 1px solid;
       padding: 10px 15px;
 
+    }
+
+    & .place__info {
+      display: flex;
+      flex-direction: column;
     }
 
     & .place__header {
@@ -493,12 +502,19 @@ button {
     }
   }
 
-  .places-list__holder {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    overflow-x: auto;
-    margin-left: 12px;
+  .map-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
   }
 
+  .mapboxgl-canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
 }

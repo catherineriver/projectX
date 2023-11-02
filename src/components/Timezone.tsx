@@ -18,12 +18,12 @@ const Timezone = () => {
   }, [])
 
   return (
-    <div>
-      <h1>Часовой пояс и текущее время</h1>
+    <div className="dev_info">
       {time && timezone && (
         <div>
-          <p>Текущее время: {time}</p>
-          <p>Часовой пояс: {timezone}</p>
+          <span>
+            Текущее время: {time} | Часовой пояс: {timezone}
+          </span>
         </div>
       )}
     </div>

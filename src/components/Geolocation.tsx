@@ -18,14 +18,12 @@ const Geolocation = () => {
   }, [])
 
   return (
-    <div>
-      <h1>Определение геолокации</h1>
+    <div className="dev_info">
       {location ? (
-        <div>
-          <p>Широта: {location.latitude}</p>
-          <p>Долгота: {location.longitude}</p>
-          <p>Точность: {location.accuracy} метров</p>
-        </div>
+        <span>
+          Широта: {location.latitude} | Долгота: {location.longitude} |
+          Точность: {location.accuracy} метров
+        </span>
       ) : (
         <p>Определение местоположения...</p>
       )}

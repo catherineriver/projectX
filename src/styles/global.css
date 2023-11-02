@@ -119,8 +119,6 @@ body {
   margin: var(--space-4) 0;
   font-weight: 800;
   max-width: 80%;
-
-
 }
 
 .post .post__excerpt {
@@ -153,12 +151,10 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-
 }
 
 .post .post__meta-item span {
   font-size: var(--font-size-5);
-
 }
 
 .post__places {
@@ -230,7 +226,7 @@ body {
 }
 
 .layout {
-  margin-top: 100px;
+  margin-top: 60px;
   padding: 0 16px;
 }
 
@@ -291,7 +287,7 @@ main {
 
   .header {
     position: unset;
-    border-bottom: none;
+    /* border-bottom: none; */
     margin: var(--space-3) 0;
     padding: var(--space-2) 0;
     background: unset;
@@ -309,7 +305,6 @@ main {
 
 /* Card */
 
-
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -325,7 +320,8 @@ main {
   flex-direction: column;
   padding: var(--space-2);
   position: relative;
-  border: 1px solid;
+  /* border: 1px solid; */
+  box-shadow: 1px 1px 10px lightgrey;
   border-radius: 16px;
 
   @media (max-width: 768px) {
@@ -465,6 +461,8 @@ button {
 
     margin: 24px auto;
     width: 100%;
+    background-color: #b6b6b6;
+    padding: 20px 0px;
 
     & .places-list__holder {
       display: flex;
@@ -480,7 +478,6 @@ button {
       border-radius: 16px;
       border: 1px solid;
       padding: 10px 15px;
-
     }
 
     & .place__info {
@@ -522,7 +519,16 @@ button {
 .marker {
   background-color: #ff5200;
   color: #fff;
-  border-radius: 50%;
-  padding: 5px;
+  /* border-radius: 50%; */
+  padding: 3px 5px;
   text-align: center;
+}
+
+/* dev_info */
+.dev_info {
+  margin: 1px;
+  background-color: black;
+  color: white;
+  font-size: 10px;
+  padding: 10px;
 }

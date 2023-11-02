@@ -36,16 +36,16 @@ export default function IndexPage(
   return (
     <Container>
       <div className="layout">
-        <Geolocation />
-        <Timezone />
-        <City />
-        <div className='cards'>
+        <div className="cards">
           {posts.length ? (
             posts.map((post) => <Card key={post._id} post={post} />)
           ) : (
             <Welcome />
           )}
         </div>
+        <Geolocation />
+        <Timezone />
+        <City />
       </div>
     </Container>
   )

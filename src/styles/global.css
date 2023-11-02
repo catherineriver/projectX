@@ -518,3 +518,11 @@ button {
     height: 100%;
   }
 }
+
+.marker {
+  background-color: #ff5200;
+  color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  text-align: center;
+}

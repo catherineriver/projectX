@@ -66,7 +66,6 @@ export default function ProjectSlugRoute(
     if (props.post && props.post.pointsCards) {
       const refs = props.post.pointsCards.map(point => point._ref);
       fetchPointsData(refs, getClient()).then(data => {
-          console.log(data);
         setPointsData(data);
       });
     }
@@ -81,6 +80,7 @@ export default function ProjectSlugRoute(
 
         <Map
           geoJsonData={props.post?.geoJson}
+          pointsData={pointsData}
           style={props.post?.map}
           flyToCoordinates={flyToCoordinates}
         />

@@ -49,6 +49,7 @@ export const getStaticProps: GetStaticProps<
 export default function ProjectSlugRoute(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
+  const [dataloaded, setLoading] = useState(false)
   const [pointsData, setPointsData] = useState([])
   const [flyToCoordinates, setFlyToCoordinates] = useState<
     [number, number] | null
@@ -58,20 +59,30 @@ export default function ProjectSlugRoute(
     setFlyToCoordinates([longitude, latitude])
   }
 
-  async function fetchPointsData(refs, client) {
+  // async function fetchPointsData(refs, client) {
+  //   const query = `*[_id in $refs]`
+  //   const params = { refs }
+  //   return await client.fetch(query, params)
+  // }
+
+  function fetchPointsData(refs, client) {
     const query = `*[_id in $refs]`
     const params = { refs }
-    return await client.fetch(query, params)
+    return client.fetch(query, params)
   }
 
   useEffect(() => {
     if (props.post && props.post.pointsCards) {
       const refs = props.post.pointsCards.map((point) => point._ref)
-      fetchPointsData(refs, getClient()).then((data) => {
-        setPointsData(data)
-      })
+      fetchPointsData(refs, getClient())
+        .then((data) => {
+          setPointsData(data)
+        })
+        .finally(() => {
+          setLoading(true)
+        })
     }
-  }, [postSlugsQuery])
+  }, [props.post])
 
   return (
     <Container>
@@ -81,13 +92,16 @@ export default function ProjectSlugRoute(
             Назад
           </button>
         </div>
-
-        <Map
-          geoJsonData={props.post?.geoJson}
-          pointsData={pointsData}
-          style={props.post?.map}
-          flyToCoordinates={flyToCoordinates}
-        />
+        {dataloaded ? (
+          <Map
+            geoJsonData={props.post?.geoJson}
+            pointsData={pointsData}
+            style={props.post?.map}
+            flyToCoordinates={flyToCoordinates}
+          />
+        ) : (
+          <div>Map data Loading...</div>
+        )}
         <div className="places-list">
           <div className="places-list__holder">
             {pointsData &&

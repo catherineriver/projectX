@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import { FeatureCollection, Feature, Point, Position } from 'geojson'
-import ReactMapGL, { Source, Layer } from 'react-map-gl'
 
 const apiKey =
   'pk.eyJ1IjoiaGFybmF1bHRjYXRoZXJpbmUiLCJhIjoiY2xua3FxNjlzMDl3bDJrcGI4dWQyaGtxcCJ9.uxPl-TQVWXAvDk9d1fnGUQ'
@@ -23,25 +22,6 @@ export default function Map({
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null,
   )
-
-  const geoJson: FeatureCollection<Point> = {
-    type: 'FeatureCollection',
-    features: pointsData.map(
-      (point): Feature<Point> => ({
-        type: 'Feature',
-        properties: {
-          title: point.title,
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [
-            point.coordinates.longitude,
-            point.coordinates.latitude,
-          ] as [number, number],
-        },
-      }),
-    ),
-  }
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -86,6 +66,27 @@ export default function Map({
       center: userLocation,
       zoom: 10,
     })
+    console.log('map ini done')
+    console.log(pointsData)
+
+    const geoJson: FeatureCollection<Point> = {
+      type: 'FeatureCollection',
+      features: pointsData.map(
+        (point): Feature<Point> => ({
+          type: 'Feature',
+          properties: {
+            title: point.title,
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [
+              point.coordinates.longitude,
+              point.coordinates.latitude,
+            ] as [number, number],
+          },
+        }),
+      ),
+    }
 
     // Асинхронная функция для получения маршрута
     const fetchRoute = async () => {
@@ -139,21 +140,6 @@ export default function Map({
                 'line-dasharray': [1, 3],
               },
             })
-
-            map.current.addSource('points', {
-              type: 'geojson',
-              data: geoJson,
-            })
-
-            geoJson.features.forEach((feature) => {
-              const coordinates: [number, number] = feature.geometry
-                .coordinates as [number, number]
-              const el = document.createElement('div')
-              el.className = 'marker'
-              el.innerText = feature.properties.title
-
-              new mapboxgl.Marker(el).setLngLat(coordinates).addTo(map.current)
-            })
           } else {
             console.error('Map style is not yet loaded')
           }
@@ -167,6 +153,25 @@ export default function Map({
 
     // Загрузка карты и добавление маркеров
     map.current.on('load', () => {
+      console.log(geoJson)
+      map.current.addSource('points', {
+        type: 'geojson',
+        data: geoJson,
+      })
+
+      geoJson.features.forEach((feature) => {
+        const coordinates: [number, number] = feature.geometry.coordinates as [
+          number,
+          number,
+        ]
+        const el = document.createElement('div')
+        el.className = 'marker'
+        el.innerText = feature.properties.title
+
+        new mapboxgl.Marker(el).setLngLat(coordinates).addTo(map.current)
+        console.log('points added')
+      })
+
       // ----------------------------------------------------------- Добавление текущей локации
       const geolocate = new mapboxgl.GeolocateControl({
         positionOptions: {

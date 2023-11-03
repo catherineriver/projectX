@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { Feature, FeatureCollection, Point } from 'geojson'
 import mapboxgl from 'mapbox-gl'
-import { FeatureCollection, Feature, Point, Position } from 'geojson'
-import ReactMapGL, { Source, Layer } from 'react-map-gl'
+import { useEffect, useRef, useState } from 'react'
 
 const apiKey =
   'pk.eyJ1IjoiaGFybmF1bHRjYXRoZXJpbmUiLCJhIjoiY2xua3FxNjlzMDl3bDJrcGI4dWQyaGtxcCJ9.uxPl-TQVWXAvDk9d1fnGUQ'
@@ -19,7 +18,6 @@ export default function Map({
 }) {
   const mapContainer = useRef(null)
   const map = useRef<mapboxgl.Map | null>(null)
-  const [zoom, setZoom] = useState(20)
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null,
   )
@@ -84,7 +82,7 @@ export default function Map({
       container: mapContainer.current,
       style: style,
       center: userLocation,
-      zoom: 10,
+      zoom: 22,
     })
 
     // Асинхронная функция для получения маршрута

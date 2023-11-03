@@ -1,7 +1,14 @@
+import mapboxgl from 'mapbox-gl'
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import Image from 'next/image'
+import router from 'next/router'
+import { useEffect, useState } from 'react'
+
 import Container from '~/components/Container'
+import Map from '~/components/Map'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
+import { urlForImage } from '~/lib/sanity.image'
 import {
   getPost,
   jsonBySlug,
@@ -9,12 +16,6 @@ import {
   postSlugsQuery,
 } from '~/lib/sanity.queries'
 import type { SharedPageProps } from '~/pages/_app'
-import mapboxgl from 'mapbox-gl'
-import Map from '~/components/Map'
-import router from 'next/router'
-import { useEffect, useState } from 'react'
-import { urlForImage } from '~/lib/sanity.image'
-import Image from 'next/image'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API
 
@@ -71,7 +72,7 @@ export default function ProjectSlugRoute(
         setPointsData(data)
       })
     }
-  }, [postSlugsQuery])
+  }, [props.post])
 
   return (
     <Container>

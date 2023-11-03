@@ -21,6 +21,74 @@ export default function Map({
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null,
   )
+  // Асинхронная функция для получения маршрута
+  const fetchRoute = async () => {
+    let coordinates = [] // 25 point only
+
+    const geoJsonDataParsed = JSON.parse(geoJsonData)
+    const geoJsonDataParsedGeo = geoJsonDataParsed.features[0].geometry
+    geoJsonDataParsedGeo.coordinates.forEach((cordinate) => {
+      coordinates.push(`${cordinate[0]},${cordinate[1]}`)
+    })
+
+    const query = coordinates.join(';') // Semi-colon for joining without encoding
+    const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/cycling/${query}?geometries=geojson&overview=full&access_token=${apiKey}`
+    console.log('Mapbox API Request URL:', directionsRequest)
+
+    try {
+      const response = await fetch(directionsRequest)
+      const data = await response.json()
+      console.log('Data:', data)
+
+      if (data.routes && data.routes.length > 0) {
+        console.log('Route data:', data.routes[0].geometry)
+
+        if (map.current.isStyleLoaded()) {
+          // Добавление маршрута на карту
+          map.current.addSource('route', {
+            type: 'geojson',
+            data: data.routes[0].geometry,
+          })
+
+          map.current.addLayer({
+            id: 'route',
+            type: 'line',
+            source: 'route',
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round',
+            },
+            paint: {
+              'line-color': '#9d9d9d',
+              'line-width': 4,
+              'line-dasharray': [1, 3],
+            },
+          })
+
+          map.current.addSource('points', {
+            type: 'geojson',
+            data: geoJson,
+          })
+
+          geoJson.features.forEach((feature) => {
+            const coordinates: [number, number] = feature.geometry
+              .coordinates as [number, number]
+            const el = document.createElement('div')
+            el.className = 'marker'
+            el.innerText = feature.properties.title
+
+            new mapboxgl.Marker(el).setLngLat(coordinates).addTo(map.current)
+          })
+        } else {
+          console.error('Map style is not yet loaded')
+        }
+      } else {
+        console.error('No routes found in the data')
+      }
+    } catch (error) {
+      console.error('Ошибка при запросе к Mapbox Directions API:', error)
+    }
+  }
 
   const geoJson: FeatureCollection<Point> = {
     type: 'FeatureCollection',
@@ -84,84 +152,6 @@ export default function Map({
       center: userLocation,
       zoom: 22,
     })
-
-    // Асинхронная функция для получения маршрута
-    const fetchRoute = async () => {
-      let coordinates = [] // 25 point only
-
-      const geoJsonDataParsed = JSON.parse(geoJsonData)
-      const geoJsonDataParsedGeo = geoJsonDataParsed.features[0].geometry
-      geoJsonDataParsedGeo.coordinates.forEach((cordinate) => {
-        coordinates.push(`${cordinate[0]},${cordinate[1]}`)
-      })
-
-      // const coordinates = pointsData.map(
-      //   (point) =>
-      //     `${encodeURIComponent(
-      //       point.coordinates.longitude,
-      //     )},${encodeURIComponent(point.coordinates.latitude)}`,
-      // )
-      const query = coordinates.join(';') // Semi-colon for joining without encoding
-      const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/cycling/${query}?geometries=geojson&overview=full&access_token=${apiKey}`
-
-      const testQuery =
-        'https://api.mapbox.com/directions/v5/walking/13.631899%2C45.08361%3B13.633303%2C45.083569?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1IjoiaGFybmF1bHRjYXRoZXJpbmUiLCJhIjoiY2xua3FxNjlzMDl3bDJrcGI4dWQyaGtxcCJ9.uxPl-TQVWXAvDk9d1fnGUQ'
-      console.log('Mapbox API Request URL:', directionsRequest)
-
-      try {
-        const response = await fetch(directionsRequest)
-        const data = await response.json()
-        console.log('Data:', data)
-
-        if (data.routes && data.routes.length > 0) {
-          console.log('Route data:', data.routes[0].geometry)
-
-          if (map.current.isStyleLoaded()) {
-            // Добавление маршрута на карту
-            map.current.addSource('route', {
-              type: 'geojson',
-              data: data.routes[0].geometry,
-            })
-
-            map.current.addLayer({
-              id: 'route',
-              type: 'line',
-              source: 'route',
-              layout: {
-                'line-join': 'round',
-                'line-cap': 'round',
-              },
-              paint: {
-                'line-color': '#9d9d9d',
-                'line-width': 4,
-                'line-dasharray': [1, 3],
-              },
-            })
-
-            map.current.addSource('points', {
-              type: 'geojson',
-              data: geoJson,
-            })
-
-            geoJson.features.forEach((feature) => {
-              const coordinates: [number, number] = feature.geometry
-                .coordinates as [number, number]
-              const el = document.createElement('div')
-              el.className = 'marker'
-              el.innerText = feature.properties.title
-
-              new mapboxgl.Marker(el).setLngLat(coordinates).addTo(map.current)
-            })
-          } else {
-            console.error('Map style is not yet loaded')
-          }
-        } else {
-          console.error('No routes found in the data')
-        }
-      } catch (error) {
-        console.error('Ошибка при запросе к Mapbox Directions API:', error)
-      }
-    }
 
     // Загрузка карты и добавление маркеров
     map.current.on('load', () => {
